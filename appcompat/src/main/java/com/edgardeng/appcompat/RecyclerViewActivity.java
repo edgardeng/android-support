@@ -10,8 +10,11 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.IntDef;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -30,6 +33,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -46,18 +50,39 @@ public class RecyclerViewActivity extends AppCompatActivity  {
 
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
+    private SwipeRefreshLayout mRefreshView;
+    private List<String> items = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
 
-        Toolbar myChildToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myChildToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Button btn = new Button(this);
+        btn.setText("refresh");
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mRefreshView.setRefreshing(true);
+                refreshData();
+            }
+        });
+        toolbar.addView(btn);
+        setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
-
         ab.setDisplayHomeAsUpEnabled(true); // Enable the Up button
 
-        final List<String> items = new ArrayList<>();
+        // init refresh layout
+        mRefreshView = findViewById(R.id.refreshView);
+        mRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshData();
+                Log.w("RecyclerView", "SwipeRefreshLayout - onRefresh");
+            }
+        });
+
+
         for(int i =0;i<20;i++) {
             items.add("item-" + i);
         }
@@ -82,9 +107,25 @@ public class RecyclerViewActivity extends AppCompatActivity  {
                 Toast.makeText(RecyclerViewActivity.this,"item-" + position,Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
+    /**
+     * pull down to refresh
+     */
+    private void refreshData() {
+        items.clear();
+        long time = System.currentTimeMillis();
+        for(int i =0;i<20;i++) {
+            items.add(time + "-new-" + i);
+        }
+        mRefreshView.setRefreshing(false);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void loadMoreData() {
 
     }
+
 
     /**
      * divider item for recycler view

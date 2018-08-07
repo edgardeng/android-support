@@ -261,3 +261,41 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 ### 利用SwipeRefreshLayout实现下拉刷新
 
+1.在布局文件中用SwipeRefreshLayout包裹RecyclerView
+```xml
+ <android.support.v4.widget.SwipeRefreshLayout
+              android:id="@+id/gank_swipe_refresh_layout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+  
+  <android.support.v7.widget.RecyclerView
+               android:id="@+id/gank_recycler_view"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:overScrollMode="never"/>
+  </android.support.v4.widget.SwipeRefreshLayout>
+```
+2. 在activity监听swipe,
+```java
+    mRefreshView = findViewById(R.id.refreshView);
+    mRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            refreshData();
+            Log.w("RecyclerView", "SwipeRefreshLayout - onRefresh");
+        }
+    });
+          
+    private void refreshData() {
+          items.clear();
+          long time = System.currentTimeMillis();
+          for(int i =0;i<20;i++) {
+              items.add(time + "-new-" + i);
+          }
+          mAdapter.notifyDataSetChanged();
+          // after refresh set status false
+          mRefreshView.setRefreshing(false);
+      }
+```
+ 
+         
