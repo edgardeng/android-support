@@ -27,6 +27,14 @@
             android:parentActivityName="com.edgardeng.appcompat.MainActivity" >
         </activity>
 
+        <activity
+            android:name=".RecyclerViewActivity"
+            android:label="RecyclerView"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName="com.edgardeng.appcompat.MainActivity" >
+        </activity>
+
+
 
     </application>
 

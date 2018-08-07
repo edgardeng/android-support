@@ -10,11 +10,24 @@
     tools:showIn="@layout/activity_main">
 
     <Button
-
+        android:id="@+id/child_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_margin="5dp"
         android:text="go to Child"
         android:onClick="onChildClick"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onRecyclerViewClick"
+        android:padding="5dp"
+        android:layout_margin="5dp"
+        android:text="RecyclerView"
+        app:layout_constraintLeft_toRightOf="@id/child_btn" />
+
+
 
     <TextView
         android:layout_width="wrap_content"

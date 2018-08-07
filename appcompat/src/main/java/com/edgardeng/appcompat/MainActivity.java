@@ -46,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this,ActionChildActivity.class));
     }
 
+    public void onRecyclerViewClick(View v) {
+        startActivity(new Intent(this,RecyclerViewActivity.class));
+    }
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

@@ -32,6 +32,8 @@ public class ActionChildActivity extends AppCompatActivity {
 
         ab.setDisplayHomeAsUpEnabled(true); // Enable the Up button
 
+        View v = findViewById(R.id.layout_main);
+        if (v!=null) v.setVisibility(View.GONE);
 
     }
 
